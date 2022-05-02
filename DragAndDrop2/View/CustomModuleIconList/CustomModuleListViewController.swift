@@ -8,6 +8,10 @@
 import UIKit
 import MobileCoreServices
 enum CustomModuleType : Codable {
+    
+    case Button
+    case Switch
+    
     enum ErrorType: Error {
             case encoding
             case decoding
@@ -35,15 +39,18 @@ enum CustomModuleType : Codable {
         case .Switch:
             try container.encode("switch")
         }
-        
     }
-    
-
-    case Button
-    case Switch
 }
 
 final class CustomModule : NSObject , NSItemProviderWriting , Codable,NSItemProviderReading {
+    
+    let type : CustomModuleType
+    
+    init(type:CustomModuleType) {
+        self.type = type
+    }
+
+
     static var writableTypeIdentifiersForItemProvider: [String] {
         return [String(kUTTypeData)]
     }
@@ -72,15 +79,6 @@ final class CustomModule : NSObject , NSItemProviderWriting , Codable,NSItemProv
        }
     }
     
-    let type : CustomModuleType
-    
-    init(type:CustomModuleType) {
-        self.type = type
-    }
-    
-
-  
-     
     
 }
 
@@ -124,7 +122,6 @@ extension CustomModuleListViewController : UITableViewDragDelegate,UITableViewDr
        switch type {
        case .Button:
            return UIImage(named: "lineBtn")
-
        case .Switch:
            return UIImage(named: "lineSwitch")
        default:
@@ -140,10 +137,7 @@ extension CustomModuleListViewController : UITableViewDragDelegate,UITableViewDr
     }
     
     func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
-        print("canHandle")
-        
-
-        return true
+        return session.canLoadObjects(ofClass: CustomModule.self)
     }
     
     func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
@@ -159,31 +153,4 @@ extension CustomModuleListViewController : UITableViewDragDelegate,UITableViewDr
     
    
     
-}
-
-
-extension CustomModuleListViewController {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else {
-            return
-        }
-        print("touchesBegan")
-        let location  = touch.location(in: self.view)
-        dragImageView = UIImageView(image: UIImage(named: "buttonModule"))
-        dragImageView!.frame = CGRect(x: location.x - 50, y: location.y - 50, width: 100, height: 100)
-        self.view.addSubview(dragImageView!)
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else {
-            return
-        }
-        
-        let location = touch.location(in: self.view)
-        dragImageView?.frame.origin = CGPoint(x: location.x - 50, y: location.y - 50)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        dragImageView = nil
-    }
 }

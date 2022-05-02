@@ -14,7 +14,7 @@ class CustomButtonModuleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(button)
-        
+        self.view.tag = 28
         
         button.setImage(UIImage(named: "buttonModule"), for: .normal)
         button.snp.makeConstraints {make in
