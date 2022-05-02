@@ -1,24 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DragAndDrop2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zM2-Sa-O0a">
+                                <rect key="frame" x="64" y="0.0" width="768" height="393"/>
+                            </imageView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dy5-j6-8wU">
+                                <rect key="frame" x="746" y="0.0" width="150" height="393"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="akK-rg-zsS"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="5wm-1K-y0c" kind="embed" identifier="CustomModuleIconList" id="p5f-eo-r8t"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dy5-j6-8wU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="5pd-nH-3Ci"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dy5-j6-8wU" secondAttribute="bottom" id="9Tf-sG-Opa"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zM2-Sa-O0a" secondAttribute="bottom" id="B8P-Jm-ayo"/>
+                            <constraint firstItem="zM2-Sa-O0a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="TSp-HX-NOw"/>
+                            <constraint firstItem="zM2-Sa-O0a" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="XeD-Ia-z77"/>
+                            <constraint firstAttribute="trailing" secondItem="dy5-j6-8wU" secondAttribute="trailing" id="YOw-Dt-iw7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zM2-Sa-O0a" secondAttribute="trailing" constant="20" id="cpj-SG-etE"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="132" y="115"/>
+        </scene>
+        <!--Custom Module List View Controller-->
+        <scene sceneID="Tru-mM-91P">
+            <objects>
+                <viewController id="5wm-1K-y0c" customClass="CustomModuleListViewController" customModule="DragAndDrop2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Eh7-gc-qMe">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="393"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="e3G-hg-3Gu">
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="393"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="CustomModuleListTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomModuleListTableViewCell" id="j0d-Xn-X7E" customClass="CustomModuleListTableViewCell" customModule="DragAndDrop2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="24.5" width="150" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="j0d-Xn-X7E" id="Nug-hc-mbB">
+                                            <rect key="frame" x="44" y="0.0" width="106" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fZB-zz-Rax">
+                                                    <rect key="frame" x="-44" y="0.0" width="144" height="100"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="fZB-zz-Rax" secondAttribute="trailing" id="3rY-Fr-5Mp"/>
+                                                <constraint firstItem="fZB-zz-Rax" firstAttribute="top" secondItem="Nug-hc-mbB" secondAttribute="top" id="9oa-yY-uqZ"/>
+                                                <constraint firstItem="fZB-zz-Rax" firstAttribute="leading" secondItem="Nug-hc-mbB" secondAttribute="leading" id="dWy-gp-dRQ"/>
+                                                <constraint firstAttribute="bottom" secondItem="fZB-zz-Rax" secondAttribute="bottom" id="l8M-0c-jyj"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="moduleImageView" destination="fZB-zz-Rax" id="SrV-hT-2hm"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Hba-BB-aBl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="e3G-hg-3Gu" firstAttribute="leading" secondItem="Eh7-gc-qMe" secondAttribute="leading" id="0d1-Po-aAM"/>
+                            <constraint firstAttribute="trailing" secondItem="e3G-hg-3Gu" secondAttribute="trailing" id="0ie-Bv-KDL"/>
+                            <constraint firstItem="e3G-hg-3Gu" firstAttribute="top" secondItem="Eh7-gc-qMe" secondAttribute="top" id="1Mn-sz-MgL"/>
+                            <constraint firstAttribute="bottom" secondItem="e3G-hg-3Gu" secondAttribute="bottom" id="HfF-H0-hWx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="moduleListTableView" destination="e3G-hg-3Gu" id="k1O-Gp-8yI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yfz-cK-bQM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528.34821428571422" y="97.826086956521749"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="group" width="704" height="272"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
