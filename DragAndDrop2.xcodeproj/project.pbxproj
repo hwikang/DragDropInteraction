@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		30CAA01726D81B6F49824D71 /* Pods_DragAndDrop2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763EDF0A143B8572F300B442 /* Pods_DragAndDrop2.framework */; };
+		7B5E778C2820AB2700DF2C5F /* UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E778B2820AB2700DF2C5F /* UIResponder.swift */; };
+		7B5E778E2820BD4500DF2C5F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E778D2820BD4500DF2C5F /* ViewModel.swift */; };
 		7B862138281A693B00515930 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B862137281A693B00515930 /* AppDelegate.swift */; };
 		7B86213A281A693B00515930 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B862139281A693B00515930 /* SceneDelegate.swift */; };
 		7B86213C281A693B00515930 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B86213B281A693B00515930 /* ViewController.swift */; };
@@ -48,6 +50,8 @@
 		2FBF33EA39A3E6556C602455 /* Pods-DragAndDrop2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragAndDrop2Tests.release.xcconfig"; path = "Target Support Files/Pods-DragAndDrop2Tests/Pods-DragAndDrop2Tests.release.xcconfig"; sourceTree = "<group>"; };
 		60318620A4EE854658BCC06C /* Pods-DragAndDrop2-DragAndDrop2UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragAndDrop2-DragAndDrop2UITests.release.xcconfig"; path = "Target Support Files/Pods-DragAndDrop2-DragAndDrop2UITests/Pods-DragAndDrop2-DragAndDrop2UITests.release.xcconfig"; sourceTree = "<group>"; };
 		763EDF0A143B8572F300B442 /* Pods_DragAndDrop2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DragAndDrop2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B5E778B2820AB2700DF2C5F /* UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResponder.swift; sourceTree = "<group>"; };
+		7B5E778D2820BD4500DF2C5F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		7B862134281A693B00515930 /* DragAndDrop2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragAndDrop2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B862137281A693B00515930 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B862139281A693B00515930 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +103,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B5E778A2820AB1C00DF2C5F /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				7B5E778B2820AB2700DF2C5F /* UIResponder.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		7B86212B281A693B00515930 = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +138,7 @@
 			children = (
 				7B862137281A693B00515930 /* AppDelegate.swift */,
 				7B862139281A693B00515930 /* SceneDelegate.swift */,
+				7B5E778A2820AB1C00DF2C5F /* Util */,
 				7BA397B6281F756700A1315D /* View */,
 				7B86213D281A693B00515930 /* Main.storyboard */,
 				7B862140281A693D00515930 /* Assets.xcassets */,
@@ -175,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				7B86213B281A693B00515930 /* ViewController.swift */,
+				7B5E778D2820BD4500DF2C5F /* ViewModel.swift */,
 				7B86216B281A862000515930 /* CustomModuleIconList */,
 				7BA397B5281F754A00A1315D /* CustomModule */,
 			);
@@ -443,9 +457,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B86213C281A693B00515930 /* ViewController.swift in Sources */,
+				7B5E778E2820BD4500DF2C5F /* ViewModel.swift in Sources */,
 				7BA397B8281F764200A1315D /* CustomButtonModuleViewController.swift in Sources */,
 				7B862138281A693B00515930 /* AppDelegate.swift in Sources */,
 				7B86213A281A693B00515930 /* SceneDelegate.swift in Sources */,
+				7B5E778C2820AB2700DF2C5F /* UIResponder.swift in Sources */,
 				7B86216D281A864B00515930 /* CustomModuleListTableViewCell.swift in Sources */,
 				7B862168281A6BF100515930 /* CustomModuleListViewController.swift in Sources */,
 				7BA397BA281F85D500A1315D /* CustomSwitchModuleViewController.swift in Sources */,

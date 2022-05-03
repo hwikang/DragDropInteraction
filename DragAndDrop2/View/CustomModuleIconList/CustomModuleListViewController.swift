@@ -45,9 +45,10 @@ enum CustomModuleType : Codable {
 final class CustomModule : NSObject , NSItemProviderWriting , Codable,NSItemProviderReading {
     
     let type : CustomModuleType
-    
-    init(type:CustomModuleType) {
+    let index : Int?
+    init(type:CustomModuleType , index:Int? = nil) {
         self.type = type
+        self.index = index
     }
 
 

@@ -7,7 +7,19 @@
 
 import UIKit
 import SnapKit
-class CustomButtonModuleViewController: UIViewController {
+class CustomButtonModuleViewController: UIViewController , Identifiable {
+   
+    
+    init(id:String){
+        self.id  = id
+        super.init(nibName: nil, bundle: nil)
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not supported")
+    }
+    let id  : String
     
     let button = UIButton()
     let label = UILabel()

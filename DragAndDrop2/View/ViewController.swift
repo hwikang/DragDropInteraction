@@ -10,6 +10,7 @@ import SnapKit
 
 class ViewController: UIViewController {
     private var customModuleListVC : CustomModuleListViewController!
+    private var viewModel = ViewModel()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "CustomModuleIconList":
@@ -56,6 +57,7 @@ extension ViewController : UIDropInteractionDelegate{
         if customModuleListVC.moduleListTableView.hasActiveDrag {
             return UIDropProposal(operation: .copy)
         }else{
+            print("move")
             return UIDropProposal(operation: .move)
 
         }
@@ -72,16 +74,15 @@ extension ViewController : UIDropInteractionDelegate{
             switch customModule.type {
             case .Button:
                 let container = self.addContainer()
-                container.tag = 69
                 container.snp.makeConstraints { maker in
                     maker.width.height.equalTo(128)
                     maker.center.equalTo(location)
                 }
-                self.addChildVC(CustomButtonModuleViewController(), container: container)
+                self.addChildVC(CustomButtonModuleViewController(id: "button"), container: container)
                 
+                self.viewModel.addModule(module: customModule)
             case .Switch:
                 let container = self.addContainer()
-                container.tag = 18
 
                 container.snp.makeConstraints { maker in
                     maker.width.equalTo(128)
@@ -103,11 +104,27 @@ extension ViewController : UIDragInteractionDelegate{
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
         let location = session.location(in: self.view)
         let moduleView = self.view.hitTest(location, with: nil)
-//        moduleView.tag
-        print("moduleView \(moduleView)\(moduleView?.tag)")
-        let dragItem = UIDragItem(itemProvider: NSItemProvider())
-//        dragItem.previewProvider = createPreviewProvider
+        
+        let customModule = getCustomModuleByView(view: moduleView)
+        
+        let dragItem = UIDragItem(itemProvider: NSItemProvider(object:customModule))
+        
+//        dragItem.localObject = moduleView?.parentViewController
+        dragItem.localObject = moduleView
+        
         return [dragItem]
+    }
+    
+    func getCustomModuleByView(view:UIView?) -> CustomModule{
+        if let vc = view?.parentViewController as? CustomButtonModuleViewController {
+            print("id \(vc.id)")
+            return CustomModule(type: .Button)
+        }
+        if let vc = view?.parentViewController as? CustomSwitchModuleViewController {
+            return CustomModule(type: .Switch)
+        }
+        
+        return CustomModule(type: .Button)
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
@@ -116,6 +133,23 @@ extension ViewController : UIDragInteractionDelegate{
         return UITargetedDragPreview(view: getPreviewImage(),parameters:UIDragPreviewParameters(), target: target)
     }
     
+    func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
+        session.items.forEach { dragItem in
+//            if let vc = dragItem.localObject as? UIViewController{
+//                print("removeFromParent vc \(vc)")
+//                vc.view.removeFromSuperview()
+//                vc.willMove(toParent: nil)
+//                vc.didMove(toParent: nil)
+//                vc.removeFromParent()
+
+//            }
+            
+            if let view = dragItem.localObject as? UIView {
+                print("remove view \(view)")
+                view.removeFromSuperview()
+            }
+        }
+    }
     
 //    func createPreviewProvider() -> UIDragPreview{
 //        let dragImageView = getDropImage()
