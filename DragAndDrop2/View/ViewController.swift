@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addInteraction(UIDropInteraction(delegate: self))
-        view.addInteraction(UIDragInteraction(delegate: self))
+//        view.addInteraction(UIDragInteraction(delegate: self))
     }
     
     
@@ -73,7 +73,9 @@ extension ViewController : UIDropInteractionDelegate{
             
             switch customModule.getType() {
             case .Button:
-                let vc = CustomButtonModuleViewController(id: "\(customModule.getIndex()!)")
+                
+                let vc = CustomButtonModuleViewController(customModule: customModule)
+//                let vc = CustomButtonModuleViewController(id: "\(customModule.getIndex()!)")
                 self.addChildVC(vc, container: self.view)
                 
                 vc.view.snp.makeConstraints { maker in
@@ -84,7 +86,9 @@ extension ViewController : UIDropInteractionDelegate{
                 self.addModule(module: customModule)
                 
             case .Switch:
-                let vc = CustomSwitchModuleViewController(id:"\(customModule.getIndex()!)")
+                let vc = CustomSwitchModuleViewController(customModule: customModule)
+
+//                let vc = CustomSwitchModuleViewController(id:"\(customModule.getIndex()!)")
                 self.addChildVC(vc, container: self.view)
 
                 vc.view.snp.makeConstraints { maker in
@@ -108,55 +112,78 @@ extension ViewController : UIDropInteractionDelegate{
  
 }
 
+//extension ViewController : UIDragInteractionDelegate{
+//    func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
+//        print("parent VC itemsForBeginning")
+//        return []
+//    }
+//
+//    func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
+//        let target = UIDragPreviewTarget(container: self.view, center: session.location(in: self.view))
+//
+//        print("parent VC previewForLifting")
+//        return UITargetedDragPreview(view: getPreviewImage(), parameters:  UIDragPreviewParameters(),target: target)
+//    }
+//
+//    func getPreviewImage() -> UIImageView{
+//            let dragImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 128, height: 128))
+//            let dragImage = UIImage(named: "buttonModule")
+//            dragImageView.image = dragImage
+//            return dragImageView
+//        }
+//
+//}
 
-extension ViewController : UIDragInteractionDelegate{
-    func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
-        let location = session.location(in: self.view)
-        let touchedView = self.view.hitTest(location, with: nil)
-        let dragVC = touchedView?.parentViewController
-        let customModule = getCustomModuleByView(view: dragVC)
-        
-        let dragItem = UIDragItem(itemProvider: NSItemProvider(object:customModule))
-        
-        dragItem.localObject = dragVC
-        
-        return [dragItem]
-    }
-    
-    func getCustomModuleByView(view:UIViewController?) -> CustomModule{
-        if let vc = view as? CustomButtonModuleViewController {
-            return CustomModule(type: .Button,index: Int(vc.id)!)
-        }
-        if let vc = view as? CustomSwitchModuleViewController {
-            return CustomModule(type: .Switch,index: Int(vc.id)!)
-        }
-        
-        fatalError("getCustomModuleByView ERROR")
-    }
-    
-    func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
-        
-        print("previewForLifting")
-        let target = UIDragPreviewTarget(container: interaction.view!, center: session.location(in: interaction.view!))
-        
-        return UITargetedDragPreview(view: getPreviewImage(),parameters:UIDragPreviewParameters(), target: target)
-    }
-    
-    func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
-        print("willAnimateLiftWith")
-        session.items.forEach { dragItem in
-            if let dragVC = dragItem.localObject as? UIViewController {
-                print("remove view \(dragVC)")
-                dragVC.view.removeFromSuperview()
-            }
-        }
-    }
-    
-    func getPreviewImage() -> UIImageView{
-        let dragImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 128, height: 128))
-        let dragImage = UIImage(named: "buttonModule")
-        dragImageView.image = dragImage
-        return dragImageView
-    }
-    
-}
+//
+//extension ViewController : UIDragInteractionDelegate{
+//    func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
+//        let location = session.location(in: self.view)
+//        let touchedView = self.view.hitTest(location, with: nil)
+//        let dragVC = touchedView?.parentViewController
+//        print("dragVC \(dragVC)")
+//        let customModule = getCustomModuleByView(view: dragVC)
+//
+//        let dragItem = UIDragItem(itemProvider: NSItemProvider(object:customModule))
+//
+//        dragItem.localObject = dragVC
+//
+//        return [dragItem]
+//    }
+//
+//    func getCustomModuleByView(view:UIViewController?) -> CustomModule{
+//        if let vc = view as? CustomButtonModuleViewController {
+//            return CustomModule(type: .Button,index: Int(vc.id)!)
+//        }
+//        if let vc = view as? CustomSwitchModuleViewController {
+//            return CustomModule(type: .Switch,index: Int(vc.id)!)
+//        }
+//
+//        fatalError("getCustomModuleByView ERROR")
+//    }
+//
+//    func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
+//
+//        print("previewForLifting")
+//        let target = UIDragPreviewTarget(container: interaction.view!, center: session.location(in: interaction.view!))
+//
+//        return UITargetedDragPreview(view: getPreviewImage(),parameters:UIDragPreviewParameters(), target: target)
+//    }
+//
+//    func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
+//        print("willAnimateLiftWith")
+//        session.items.forEach { dragItem in
+//            if let dragVC = dragItem.localObject as? UIViewController {
+//                print("remove view \(dragVC)")
+//                dragVC.view.removeFromSuperview()
+//            }
+//        }
+//    }
+//
+//    func getPreviewImage() -> UIImageView{
+//        let dragImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 128, height: 128))
+//        let dragImage = UIImage(named: "buttonModule")
+//        dragImageView.image = dragImage
+//        return dragImageView
+//    }
+//
+//}

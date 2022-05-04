@@ -7,17 +7,14 @@
 
 import UIKit
 import SnapKit
-class CustomSwitchModuleViewController: UIViewController,Identifiable {
+class CustomSwitchModuleViewController: CustomModuleViewController {
    
-    init(id:String){
-        self.id  = id
-        super.init(nibName: nil, bundle: nil)
+    override init(customModule:CustomModule) {
+        super.init(customModule: customModule)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) is not supported")
     }
-    
-    let id  : String
     let label = UILabel()
     let switchModule = UIButton()
     

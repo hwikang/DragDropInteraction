@@ -7,19 +7,24 @@
 
 import UIKit
 import SnapKit
-class CustomButtonModuleViewController: UIViewController , Identifiable {
+class CustomButtonModuleViewController: CustomModuleViewController {
    
-    
-    init(id:String){
-        self.id  = id
-        super.init(nibName: nil, bundle: nil)
-
+    override init(customModule:CustomModule) {
+        super.init(customModule: customModule)
     }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) is not supported")
     }
-    let id  : String
+//    init(id:String){
+//        self.id  = id
+//        super.init(nibName: nil, bundle: nil)
+//
+//    }
+//
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) is not supported")
+//    }
+//    let id  : String
     
     let button = UIButton()
     let label = UILabel()
@@ -39,14 +44,5 @@ class CustomButtonModuleViewController: UIViewController , Identifiable {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
