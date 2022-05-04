@@ -15,6 +15,7 @@ class ViewController: UIViewController {
         switch segue.identifier {
         case "CustomModuleIconList":
             customModuleListVC = segue.destination as! CustomModuleListViewController
+            customModuleListVC.viewModel = self.viewModel
         default:
             return
         }
@@ -57,7 +58,6 @@ extension ViewController : UIDropInteractionDelegate{
         if customModuleListVC.moduleListTableView.hasActiveDrag {
             return UIDropProposal(operation: .copy)
         }else{
-            print("move")
             return UIDropProposal(operation: .move)
 
         }
@@ -65,36 +65,45 @@ extension ViewController : UIDropInteractionDelegate{
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        
         session.loadObjects(ofClass: CustomModule.self) {[weak self] items in
             guard let self = self ,
                   let customModule = items.first as? CustomModule else { return }
             let location = session.location(in: self.view)
-            print("type \(customModule.type) location \(location)")
             
-            switch customModule.type {
+            switch customModule.getType() {
             case .Button:
-                let container = self.addContainer()
-                container.snp.makeConstraints { maker in
+                let vc = CustomButtonModuleViewController(id: "\(customModule.getIndex()!)")
+                self.addChildVC(vc, container: self.view)
+                
+                vc.view.snp.makeConstraints { maker in
                     maker.width.height.equalTo(128)
                     maker.center.equalTo(location)
                 }
-                self.addChildVC(CustomButtonModuleViewController(id: "button"), container: container)
                 
-                self.viewModel.addModule(module: customModule)
+                self.addModule(module: customModule)
+                
             case .Switch:
-                let container = self.addContainer()
+                let vc = CustomSwitchModuleViewController(id:"\(customModule.getIndex()!)")
+                self.addChildVC(vc, container: self.view)
 
-                container.snp.makeConstraints { maker in
+                vc.view.snp.makeConstraints { maker in
                     maker.width.equalTo(128)
                     maker.height.equalTo(80)
                     maker.center.equalTo(location)
                 }
-                self.addChildVC(CustomSwitchModuleViewController(), container: container)
-                
+                self.addModule(module: customModule)
+
             }
         }
         
        
+    }
+    
+    private func addModule(module:CustomModule){
+        if(customModuleListVC.moduleListTableView.hasActiveDrag){
+            viewModel.addModule(module: module)
+        }
     }
  
 }
@@ -103,58 +112,45 @@ extension ViewController : UIDropInteractionDelegate{
 extension ViewController : UIDragInteractionDelegate{
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
         let location = session.location(in: self.view)
-        let moduleView = self.view.hitTest(location, with: nil)
-        
-        let customModule = getCustomModuleByView(view: moduleView)
+        let touchedView = self.view.hitTest(location, with: nil)
+        let dragVC = touchedView?.parentViewController
+        let customModule = getCustomModuleByView(view: dragVC)
         
         let dragItem = UIDragItem(itemProvider: NSItemProvider(object:customModule))
         
-//        dragItem.localObject = moduleView?.parentViewController
-        dragItem.localObject = moduleView
+        dragItem.localObject = dragVC
         
         return [dragItem]
     }
     
-    func getCustomModuleByView(view:UIView?) -> CustomModule{
-        if let vc = view?.parentViewController as? CustomButtonModuleViewController {
-            print("id \(vc.id)")
-            return CustomModule(type: .Button)
+    func getCustomModuleByView(view:UIViewController?) -> CustomModule{
+        if let vc = view as? CustomButtonModuleViewController {
+            return CustomModule(type: .Button,index: Int(vc.id)!)
         }
-        if let vc = view?.parentViewController as? CustomSwitchModuleViewController {
-            return CustomModule(type: .Switch)
+        if let vc = view as? CustomSwitchModuleViewController {
+            return CustomModule(type: .Switch,index: Int(vc.id)!)
         }
         
-        return CustomModule(type: .Button)
+        fatalError("getCustomModuleByView ERROR")
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, previewForLifting item: UIDragItem, session: UIDragSession) -> UITargetedDragPreview? {
+        
+        print("previewForLifting")
         let target = UIDragPreviewTarget(container: interaction.view!, center: session.location(in: interaction.view!))
         
         return UITargetedDragPreview(view: getPreviewImage(),parameters:UIDragPreviewParameters(), target: target)
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
+        print("willAnimateLiftWith")
         session.items.forEach { dragItem in
-//            if let vc = dragItem.localObject as? UIViewController{
-//                print("removeFromParent vc \(vc)")
-//                vc.view.removeFromSuperview()
-//                vc.willMove(toParent: nil)
-//                vc.didMove(toParent: nil)
-//                vc.removeFromParent()
-
-//            }
-            
-            if let view = dragItem.localObject as? UIView {
-                print("remove view \(view)")
-                view.removeFromSuperview()
+            if let dragVC = dragItem.localObject as? UIViewController {
+                print("remove view \(dragVC)")
+                dragVC.view.removeFromSuperview()
             }
         }
     }
-    
-//    func createPreviewProvider() -> UIDragPreview{
-//        let dragImageView = getDropImage()
-//        return UIDragPreview(view: dragImageView)
-//    }
     
     func getPreviewImage() -> UIImageView{
         let dragImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 128, height: 128))

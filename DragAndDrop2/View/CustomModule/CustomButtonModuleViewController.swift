@@ -26,7 +26,7 @@ class CustomButtonModuleViewController: UIViewController , Identifiable {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(button)
-        self.view.tag = 28
+        self.view.backgroundColor = .white
         
         button.setImage(UIImage(named: "buttonModule"), for: .normal)
         button.snp.makeConstraints {make in

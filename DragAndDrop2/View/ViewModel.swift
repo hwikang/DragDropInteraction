@@ -13,28 +13,35 @@ class ViewModel{
     
     
     func addModule(module:CustomModule){
-        let index = getModuleIndex(module: module)
-        print("Index \(index)")
-        let indexedModule = CustomModule(type: module.type, index: index)
         
+        let type = module.getType()
       
-        if currentModuleDict[module.type] != nil{
-            currentModuleDict[module.type]!.append(indexedModule)
+        if currentModuleDict[type] != nil{
+            currentModuleDict[type]!.append(module)
         }else{
-            currentModuleDict[module.type] = [indexedModule]
+            currentModuleDict[type] = [module]
+
         }
-       print("currentModuleDict \(currentModuleDict)")
+        
+        //print
+        currentModuleDict[type]?.map{print( $0.toJSON()) }
+    }
+    
+    func removeModule(){
+        
     }
     
     func getModuleIndex(module:CustomModule) -> Int{
         var index = 1
-        guard var sameModules = currentModuleDict[module.type] else {
+        let type = module.getType()
+
+        guard var sameModules = currentModuleDict[type] else {
             return index
         }
         
-        sameModules.sort { $0.index! < $1.index! }
+        sameModules.sort { $0.getIndex()! < $1.getIndex()! }
         for i in 1..<sameModules.count+2{
-            let foundModule = sameModules.first {$0.index == i }
+            let foundModule = sameModules.first {$0.getIndex() == i }
             if(foundModule == nil){
                 index = i
                 break

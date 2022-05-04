@@ -6,82 +6,6 @@
 //
 
 import UIKit
-import MobileCoreServices
-enum CustomModuleType : Codable {
-    
-    case Button
-    case Switch
-    
-    enum ErrorType: Error {
-            case encoding
-            case decoding
-        }
-    init(from decoder: Decoder) throws {
-        let value = try decoder.singleValueContainer()
-        let decodedValue = try value.decode(String.self)
-        switch decodedValue {
-        case "button":
-            self = .Button
-        case "switch":
-            self = .Switch
-        
-        default:
-            throw ErrorType.decoding
-        }
-    }
-    
-    
-    func encode(to encoder: Encoder) throws {
-        var container = try encoder.singleValueContainer()
-        switch self {
-        case .Button:
-            try container.encode("button")
-        case .Switch:
-            try container.encode("switch")
-        }
-    }
-}
-
-final class CustomModule : NSObject , NSItemProviderWriting , Codable,NSItemProviderReading {
-    
-    let type : CustomModuleType
-    let index : Int?
-    init(type:CustomModuleType , index:Int? = nil) {
-        self.type = type
-        self.index = index
-    }
-
-
-    static var writableTypeIdentifiersForItemProvider: [String] {
-        return [String(kUTTypeData)]
-    }
-    
-    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-        let progress = Progress(totalUnitCount: 100)
-            do {
-                let data = try JSONEncoder().encode(self)
-                progress.completedUnitCount = 100
-                completionHandler(data, nil)
-            } catch {
-                completionHandler(nil, error)
-            }
-            return progress
-    }
-    static var readableTypeIdentifiersForItemProvider: [String] {
-           return [String(kUTTypeData)]
-       }
-       
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> CustomModule {
-       do {
-           let subject = try JSONDecoder().decode(CustomModule.self, from: data)
-           return subject
-       } catch {
-           fatalError()
-       }
-    }
-    
-    
-}
 
 let modulelist = [CustomModule(type: .Button) , CustomModule(type: .Switch)]
 
@@ -91,6 +15,7 @@ class CustomModuleListViewController: UIViewController,UITableViewDelegate,UITab
     
     var dragImageView : UIImageView?
     
+    var viewModel : ViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
         moduleListTableView.delegate = self
@@ -114,7 +39,7 @@ extension CustomModuleListViewController : UITableViewDragDelegate,UITableViewDr
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomModuleListTableViewCell", for: indexPath) as? CustomModuleListTableViewCell else{ fatalError("cell error")}
-        let image = getImage(type: modulelist[indexPath.row].type)
+        let image = getImage(type: modulelist[indexPath.row].getType())
         cell.moduleImageView.image = image
         return cell
     }
@@ -131,8 +56,11 @@ extension CustomModuleListViewController : UITableViewDragDelegate,UITableViewDr
    }
     
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        print("itemsForBeginning")
-        let module = modulelist[indexPath.row]
+        
+        var module = modulelist[indexPath.row]
+        let index = viewModel.getModuleIndex(module: module)
+        module.setIndex(index: index)
+        
         let provider = NSItemProvider(object: module)
         return [UIDragItem(itemProvider: provider)]
     }
