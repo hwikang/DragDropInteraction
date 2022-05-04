@@ -50,19 +50,9 @@ extension CustomModuleViewController : UIDragInteractionDelegate {
         return UITargetedDragPreview(view: getPreviewImage(), parameters:  UIDragPreviewParameters(),target: target)
     }
     
-    func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
-//        session.items.forEach { dragItem in
-//            if let dragVC = dragItem.localObject as? UIViewController {
-//                print("remove view \(dragVC)")
-//                dragVC.view.removeFromSuperview()
-//            }
-//        }
-        
-    }
-    
+ 
     
     func dragInteraction(_ interaction: UIDragInteraction, session: UIDragSession, didEndWith operation: UIDropOperation) {
-        print("didEndWith")
         self.view.removeFromSuperview()
 
     }

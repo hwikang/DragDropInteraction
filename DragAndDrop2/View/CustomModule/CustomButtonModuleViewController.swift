@@ -15,16 +15,6 @@ class CustomButtonModuleViewController: CustomModuleViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) is not supported")
     }
-//    init(id:String){
-//        self.id  = id
-//        super.init(nibName: nil, bundle: nil)
-//
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) is not supported")
-//    }
-//    let id  : String
     
     let button = UIButton()
     let label = UILabel()
